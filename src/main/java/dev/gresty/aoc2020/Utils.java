@@ -2,7 +2,9 @@ package dev.gresty.aoc2020;
 
 import java.io.*;
 import java.net.URL;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class Utils {
@@ -31,5 +33,12 @@ public class Utils {
         URL url = Utils.class.getClassLoader().getResource("dev/gresty/aoc2020/" + filename);
         if (url == null) throw new FileNotFoundException("dev/gresty/aoc2020/" + filename);
         return url;
+    }
+
+    public static void time(Supplier<String> supplier) {
+        long start = System.currentTimeMillis();
+        msg(supplier.get());
+        long duration = System.currentTimeMillis() - start;
+        msg("Duration: " + duration + "ms");
     }
 }

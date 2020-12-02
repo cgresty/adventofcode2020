@@ -1,7 +1,6 @@
 package dev.gresty.aoc2020;
 
-import static dev.gresty.aoc2020.Utils.msg;
-import static dev.gresty.aoc2020.Utils.withLines;
+import static dev.gresty.aoc2020.Utils.*;
 
 public class Day01 {
 
@@ -9,8 +8,8 @@ public class Day01 {
         int[] expenses = withLines("day01.txt",
                 s -> s.mapToInt(Integer::parseInt).toArray());
 
-        msg("Puzzle 1: " + puzzle1(expenses));
-        msg("Puzzle 2: " + puzzle2(expenses));
+        time(() -> "Puzzle 1: " + puzzle1(expenses));
+        time(() -> "Puzzle 2: " + puzzle2(expenses));
     }
 
     static int puzzle1(int[] expenses) {
