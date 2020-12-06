@@ -78,7 +78,7 @@ public class Day04 {
 
     public static boolean allValuesPresent(String input) {
         try {
-            new Passport(input, false);
+            new Passport(input);
             return true;
         } catch (InvalidPassportException e) {
             msg("Error: " + e.getLocalizedMessage());
@@ -88,7 +88,7 @@ public class Day04 {
 
     public static boolean fullCheck(String input) {
         try {
-            new Passport(input, true);
+            new Passport(input).validate();
             return true;
         } catch (InvalidPassportException e) {
             msg("Error: " + e.getLocalizedMessage());
@@ -97,32 +97,21 @@ public class Day04 {
     }
 
     static class Passport {
-        int byr;
-        int iyr;
-        int eyr;
-        String hgt;
-        String hcl;
-        String ecl;
-        String pid;
-        String cid;
+        Map<String, String> values;
 
-        Passport (String input, boolean enhancedCheck) {
-            var values = decode(input);
+        Passport (String input) {
+            values = decode(input);
             basicCheck(values);
+        }
 
-            if (enhancedCheck) {
-                byr = parseYear("byr", values, 1920, 2002);
-                iyr = parseYear("iyr", values, 2010, 2020);
-                eyr = parseYear("eyr", values, 2020, 2030);
-                hgt = parseHeight(values);
-                hcl = parseHairColour(values);
-                ecl = parseEyeColour(values);
-                pid = parsePassportId(values);
-                cid = parseCountryId(values);
-
-                if (byr > iyr) throw new InvalidPassportException("byr " + byr + " > iyr " + iyr);
-                if (iyr > eyr) throw new InvalidPassportException("iyr " + iyr + " > eyr " + eyr);
-            }
+        public void validate() {
+            validateYear("byr", 1920, 2002);
+            validateYear("iyr", 2010, 2020);
+            validateYear("eyr", 2020, 2030);
+            validateHeight();
+            validateHairColour();
+            validateEyeColour();
+            validatePassportId();
         }
 
         private static Map<String, String> decode(String input) {
@@ -144,22 +133,19 @@ public class Day04 {
             }
         }
 
-        private int parseYear(String name, Map<String, String> values, int min, int max) {
+        private void validateYear(String name, int min, int max) {
             String value = values.get(name);
-            if (value == null) throw new InvalidPassportException("Missing " + name);
             try {
                 int year = Integer.parseInt(value);
                 if (year < min || year > max) throw new InvalidPassportException("Invalid " + name + ": " + value);
-                return year;
             } catch (NumberFormatException e) {
                 throw new InvalidPassportException("Invalid " + name + ": " + value);
             }
         }
 
         static final Pattern HEIGHT = Pattern.compile("^(\\d+)(in|cm)$");
-        private String parseHeight(Map<String, String> values) {
+        private void validateHeight() {
             String value = values.get("hgt");
-            if (value == null) throw new InvalidPassportException("Missing hgt");
             Matcher m = HEIGHT.matcher(value);
             if (!m.matches()) {
                 throw new InvalidPassportException("Invalid hgt: " + value);
@@ -171,48 +157,34 @@ public class Day04 {
             if (m.group(2).equals("in") && (heightNum < 59 || heightNum > 76)) {
                 throw new InvalidPassportException("Invalid hgt: " + value);
             }
-            return value;
         }
 
         static final Pattern COLOUR_HEX = Pattern.compile("^#[a-f0-9]{6}$");
-        private String parseHairColour(Map<String, String> values) {
+        private void validateHairColour() {
             String value = values.get("hcl");
-            if (value == null) throw new InvalidPassportException("Missing hcl");
             Matcher m = COLOUR_HEX.matcher(value);
             if (!m.matches()) {
                 throw new InvalidPassportException("Invalid hcl: " + value);
             }
-            return value;
         }
 
         static final Pattern COLOUR_NAME = Pattern.compile("^(amb|blu|brn|gry|grn|hzl|oth)$");
-        private String parseEyeColour(Map<String, String> values) {
+        private void validateEyeColour() {
             String value = values.get("ecl");
-            if (value == null) throw new InvalidPassportException("Missing ecl");
             Matcher m = COLOUR_NAME.matcher(value);
             if (!m.matches()) {
                 throw new InvalidPassportException("Invalid ecl: " + value);
             }
-            return value;
         }
 
         static final Pattern PASSPORT = Pattern.compile("^\\d{9}$");
-        private String parsePassportId(Map<String, String> values) {
+        private void validatePassportId() {
             String value = values.get("pid");
-            if (value == null) throw new InvalidPassportException("Missing pid");
             Matcher m = PASSPORT.matcher(value);
             if (!m.matches()) {
                 throw new InvalidPassportException("Invalid pid: " + value);
             }
-            return value;
         }
-
-        private String parseCountryId(Map<String, String> values) {
-            return values.get("cid");
-        }
-
-
-
     }
 
     public static class InvalidPassportException extends RuntimeException {
