@@ -2,22 +2,21 @@ package dev.gresty.aoc2020;
 
 import org.junit.jupiter.api.Test;
 
-import static dev.gresty.aoc2020.Day06.groupAnswersByAnyone;
-import static dev.gresty.aoc2020.Day06.groupAnswersByEveryone;
+import static dev.gresty.aoc2020.Day06.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class Day06Test {
 
     @Test
     public void test1() {
-        var grouped = groupAnswersByAnyone(TEST_INPUT_1.lines());
+        var grouped = groupAnswers(TEST_INPUT_1.lines(), Day06::accumulateForAnyone);
         assertEquals(1, grouped.size());
         assertEquals(6, grouped.get(0).cardinality());
     }
 
     @Test
     public void test2() {
-        var grouped = groupAnswersByAnyone(TEST_INPUT_2.lines());
+        var grouped = groupAnswers(TEST_INPUT_2.lines(), Day06::accumulateForAnyone);
         assertEquals(5, grouped.size());
         assertEquals(3, grouped.get(0).cardinality());
         assertEquals(3, grouped.get(1).cardinality());
@@ -28,7 +27,7 @@ class Day06Test {
 
     @Test
     public void test3() {
-        var grouped = groupAnswersByEveryone(TEST_INPUT_2.lines());
+        var grouped = groupAnswers(TEST_INPUT_2.lines(), Day06::accumulateForEveryone);
         assertEquals(5, grouped.size());
         assertEquals(3, grouped.get(0).cardinality());
         assertEquals(0, grouped.get(1).cardinality());
