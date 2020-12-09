@@ -21,6 +21,14 @@ public class Utils {
         }
     }
 
+    public static void withLines2(String filename, Consumer<Stream<String>> function) {
+        try (var in = readFile(filename)) {
+            function.accept(in.lines());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 //    public static InputStream streamFile(String filename) throws IOException {
 //        return resource(filename).openStream();
 //    }

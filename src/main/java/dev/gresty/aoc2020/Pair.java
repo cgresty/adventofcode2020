@@ -15,6 +15,10 @@ public class Pair<T> {
         return new IntPair(a, b);
     }
 
+    static LongPair of(long a, long b) {
+        return new LongPair(a, b);
+    }
+
     static <T> Pair<T> of(T[] x) {
         return new Pair<>(x[0], x[1]);
     }
