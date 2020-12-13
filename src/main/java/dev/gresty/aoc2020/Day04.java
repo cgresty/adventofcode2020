@@ -118,7 +118,7 @@ public class Day04 {
             try {
                 return Arrays.stream(input.trim().split(" "))
                         .map(s -> Pair.of(s.split(":")))
-                        .collect(Collectors.toMap(Pair::a, Pair::b));
+                        .collect(Collectors.toMap(Pair::x, Pair::y));
             } catch (RuntimeException e) {
                 throw new InvalidPassportException("Invalid input: " + input, e);
             }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class LongPair {
-    final long a;
-    final long b;
+    final long x;
+    final long y;
 }

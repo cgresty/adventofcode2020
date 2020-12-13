@@ -4,23 +4,23 @@ import lombok.Data;
 
 @Data
 public class Pair<T> {
-    final T a;
-    final T b;
+    final T x;
+    final T y;
 
-    static <T> Pair<T> of(T a, T b) {
-        return new Pair<>(a, b);
+    static <T> Pair<T> of(T x, T y) {
+        return new Pair<>(x, y);
     }
 
-    static IntPair of(int a, int b) {
-        return new IntPair(a, b);
+    static IntPair of(int x, int y) {
+        return new IntPair(x, y);
     }
 
-    static LongPair of(long a, long b) {
-        return new LongPair(a, b);
+    static LongPair of(long x, long y) {
+        return new LongPair(x, y);
     }
 
     static <T> Pair<T> of(T[] x) {
-        return new Pair<>(x[0], x[1]);
+        return Pair.of(x[0], x[1]);
     }
 
 }

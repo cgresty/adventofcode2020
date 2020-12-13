@@ -26,7 +26,7 @@ public class Day03 {
                 Pair.of(7, 1),
                 Pair.of(1, 2));
         return slopes.stream()
-                .mapToLong(p -> treesHitOnSlope(p.a, p.b, map))
+                .mapToLong(p -> treesHitOnSlope(p.x, p.y, map))
                 .reduce(1L, (a, b) -> a * b);
     }
 

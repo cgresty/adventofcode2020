@@ -50,7 +50,7 @@ public class Day09 {
             }
         }
         LongPair minMax = slice.minMax();
-        return minMax.a + minMax.b;
+        return minMax.x + minMax.y;
     }
 
 

@@ -88,7 +88,7 @@ public class Day11 {
 
     static int occupiedVisible(char[][] seats, int row, int col) {
         return (int) allVisibleFromSeat(seats, Pair.of(row, col)).stream()
-                .mapToLong(loc -> seats[loc.a][loc.b])
+                .mapToLong(loc -> seats[loc.x][loc.y])
                 .filter(s -> s == OCCUPIED)
                 .count();
     }
@@ -116,7 +116,7 @@ public class Day11 {
     static IntPair nextVisibleInDirection(char[][] seats, IntPair from, IntPair d) {
         IntPair next = from.add(d);
         if (validLocation(seats, next)) {
-            if (seats[next.a][next.b] == FLOOR) {
+            if (seats[next.x][next.y] == FLOOR) {
                 return nextVisibleInDirection(seats, next, d);
             } else {
                 return next;
@@ -127,7 +127,7 @@ public class Day11 {
     }
 
     static boolean validLocation(char[][] seat, IntPair loc) {
-        return (loc.a >= 0 && loc.b >= 0 && loc.a < seat.length && loc.b < seat[loc.a].length);
+        return (loc.x >= 0 && loc.y >= 0 && loc.x < seat.length && loc.y < seat[loc.x].length);
     }
 
     static int countOccupied(char[][] seats) {
