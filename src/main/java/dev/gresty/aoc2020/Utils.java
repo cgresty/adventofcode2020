@@ -2,6 +2,7 @@ package dev.gresty.aoc2020;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,6 +36,14 @@ public class Utils {
 
     public static BufferedReader readFile(String filename) throws IOException {
         return new BufferedReader(new InputStreamReader(resource(filename).openStream()));
+    }
+
+    public static Scanner scanner(String filename) {
+        try {
+            return new Scanner(resource(filename).openStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static URL resource(String filename) throws FileNotFoundException {
